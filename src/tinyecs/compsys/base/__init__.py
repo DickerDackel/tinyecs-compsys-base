@@ -39,10 +39,9 @@ class Timer:
         self.cooldown = cooldown if isinstance(cooldown, Cooldown) else Cooldown(cooldown)
 
 
-def sys_crond(dt: float, eid: EntityID, crond: CronD) -> None:
+def sys_crond(eid: EntityID, crond: CronD) -> None:
     """Update a pgcooldown.CronD queue.
 
-    :param dt: Delta time
     :param eid: The entity ID
     :param crond: The schedule queue for the entity.  See :class:`pgcooldown.CronD`
 
@@ -51,10 +50,9 @@ def sys_crond(dt: float, eid: EntityID, crond: CronD) -> None:
     crond.update()
 
 
-def sys_followup(dt: float, eid: EntityID, is_killed: bool, followup: Callable[[], None]) -> None:
+def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[], None]) -> None:
     """Run a followup function after an entity is marked as dead.
 
-    :param dt: Delta time
     :param eid: The entity ID
     :param is_killed: The boolean flag component to mark this as killed
     :param followup: A callback to run
@@ -70,15 +68,14 @@ def sys_followup(dt: float, eid: EntityID, is_killed: bool, followup: Callable[[
     followup(eid)
 
 
-def sys_kill_with_parent(dt: float, eid: EntityID, parent: EntityID):
+def sys_kill_with_parent(eid: EntityID, parent: EntityID):
     if ecs.eid_has(parent, Comp.IS_KILLED):
         ecs.add_component(eid, Comp.IS_KILLED, True)
 
 
-def sys_lifetime(dt: float, eid: EntityID, lifetime: Cooldown) -> None:
+def sys_lifetime(eid: EntityID, lifetime: Cooldown) -> None:
     """Update position based on a LerpPosition object.
 
-    :param dt: Delta time
     :param eid: The entity ID
     :param lifetime: A cooldown instance
 
@@ -89,10 +86,9 @@ def sys_lifetime(dt: float, eid: EntityID, lifetime: Cooldown) -> None:
         ecs.add_component(eid, Comp.IS_KILLED)
 
 
-def sys_reap(dt: float, eid: EntityID, is_killed: bool) -> None:
+def sys_reap(eid: EntityID, is_killed: bool) -> None:
     """Remove entities that have a Comp.IS_KILLED component.
 
-    :param dt: Delta time
     :param eid: The entity ID
     :param is_killed: Exactly that
 
@@ -101,10 +97,9 @@ def sys_reap(dt: float, eid: EntityID, is_killed: bool) -> None:
     ecs.remove_entity(eid)
 
 
-def sys_timer(dt: float, eid: EntityID, timer: Cooldown) -> None:
+def sys_timer(eid: EntityID, timer: Cooldown) -> None:
     """Run a callback function after a timer runs out.
 
-    :param dt: Delta time
     :param eid: The entity ID
     :param timer: A :class:`Timer` object
 

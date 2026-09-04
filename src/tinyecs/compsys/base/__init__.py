@@ -83,7 +83,7 @@ def sys_lifetime(eid: EntityID, lifetime: Cooldown) -> None:
     """
 
     if lifetime.cold():
-        ecs.add_component(eid, Comp.IS_KILLED)
+        ecs.add_component(eid, Comp.IS_KILLED, True)
 
 
 def sys_reap(eid: EntityID, is_killed: bool) -> None:

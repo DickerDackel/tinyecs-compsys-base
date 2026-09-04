@@ -23,6 +23,7 @@ class Timer:
 
     :param cooldown: The actual timer object
     :param callback: The function to run when the timer fires
+    :param repeat: Decides if the timer is reoccurring
 
     The prototype of the callback function is::
 
@@ -34,6 +35,7 @@ class Timer:
 
     cooldown: InitVar[float | Cooldown]
     callback: Callable[None, []]
+    repeat: bool = False
 
     def __post_init__(self, cooldown: Cooldown | float) -> None:
         self.cooldown = cooldown if isinstance(cooldown, Cooldown) else Cooldown(cooldown)

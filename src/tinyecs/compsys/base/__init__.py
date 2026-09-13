@@ -12,7 +12,6 @@ from tinyecs.compsys import Comp
 extend_enum(Comp, 'CROND')
 extend_enum(Comp, 'FOLLOWUP')
 extend_enum(Comp, 'IS_KILLED')
-extend_enum(Comp, 'KILLED')
 extend_enum(Comp, 'KILL_WITH_PARENT')
 extend_enum(Comp, 'TIMER')
 

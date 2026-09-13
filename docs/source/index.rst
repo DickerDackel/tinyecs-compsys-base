@@ -1,12 +1,11 @@
-FIXME - Long description of FIXME
-=================================
+tinyecs-compsys - compsys root for tinyecs
+==========================================
 
 .. toctree::
    :caption: Contents:
 
    introduction
    api
-   glossary
    license
 
 Index

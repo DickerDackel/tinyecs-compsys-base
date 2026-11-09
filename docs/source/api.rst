@@ -7,6 +7,8 @@ tinyecs-compsys-base API
 Components
 ----------
 
+See Systems below for what each component is.
+
 Registers the following CIDs to ``tinyecs-compsy.Comp``:
 
 * CROND

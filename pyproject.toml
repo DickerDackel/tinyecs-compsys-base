@@ -21,7 +21,7 @@ license-files = ["LICENSE"]
 dependencies = [
     'aenum',
     'pgcooldown',
-    'tinyecs-compsys @ git+https://forgejo.indieandmore.photography/dickerdackel/tinyecs-compsys',
+    # 'tinyecs-compsys',
 ]
 
 [dependency-groups]

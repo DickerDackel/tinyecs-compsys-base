@@ -46,6 +46,9 @@ def sys_crond(eid: EntityID, crond: CronD) -> None:
     :param eid: The entity ID
     :param crond: The schedule queue for the entity.  See :class:`pgcooldown.CronD`
 
+    pgcooldown's ``CronD`` class needs to have its ``update`` method called
+    frequently.  Running this system will ensure exactly that.
+
     """
 
     crond.update()
@@ -70,6 +73,14 @@ def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[], None]) -
 
 
 def sys_kill_with_parent(eid: EntityID, parent: EntityID):
+    """Mark this entity as "killed" if its parent is killed as well.
+
+    :param eid: The entity ID
+    :param parent: The parent entity to watch
+
+    Relies on :func:`sys_reap` or your own system to actually remove the entity.
+    """
+
     if ecs.eid_has(parent, Comp.IS_KILLED):
         ecs.add_component(eid, Comp.IS_KILLED, True)
 
@@ -78,7 +89,7 @@ def sys_lifetime(eid: EntityID, lifetime: Cooldown) -> None:
     """Update position based on a LerpPosition object.
 
     :param eid: The entity ID
-    :param lifetime: A cooldown instance
+    :param lifetime: A `pgcooldown.Cooldown` instance
 
     Relies on :func:`sys_reap` or your own system to actually remove the entity.
     """

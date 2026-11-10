@@ -13,6 +13,7 @@ extend_enum(Comp, 'CROND')
 extend_enum(Comp, 'FOLLOWUP')
 extend_enum(Comp, 'IS_KILLED')
 extend_enum(Comp, 'KILL_WITH_PARENT')
+extend_enum(Comp, 'LIFETIME')
 extend_enum(Comp, 'TIMER')
 
 
@@ -20,20 +21,21 @@ extend_enum(Comp, 'TIMER')
 class Timer:
     """An optionally repeating timer component.
 
-    :param cooldown: The actual timer object
+    :param cooldown: Either a pgcooldown.Cooldown object or a number of seconds
     :param callback: The function to run when the timer fires
     :param repeat: Decides if the timer is reoccurring
 
     The prototype of the callback function is::
 
-        def callback()
+        def callback() -> None:
+            ...
 
     .. note:: If ``repeat`` is false, when using :func:`sys_timer`, the
         component will be removed after it fired.
     """
 
     cooldown: InitVar[float | Cooldown]
-    callback: Callable[None, []]
+    callback: Callable[[], None]
     repeat: bool = False
 
     def __post_init__(self, cooldown: Cooldown | float) -> None:
@@ -54,18 +56,20 @@ def sys_crond(eid: EntityID, crond: CronD) -> None:
     crond.update()
 
 
-def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[], None]) -> None:
+def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[EntityID], None]) -> None:
     """Run a followup function after an entity is marked as dead.
 
     :param eid: The entity ID
-    :param is_killed: The boolean flag component to mark this as killed
+    :param is_killed: The marker component that indicates that this entity is killed
+        The existence of this component alone is sufficient, its value is ignored
     :param followup: A callback to run
 
     The prototype for the callback is::
 
-        def callback() -> None
+        def callback(eid: EntityID) -> None:
+            ...
 
-    Once the followup has fired, its component is removed.
+    The followup component is removed before the callback is called.
     """
 
     ecs.remove_component(eid, Comp.FOLLOWUP)
@@ -73,7 +77,7 @@ def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[], None]) -
 
 
 def sys_kill_with_parent(eid: EntityID, parent: EntityID):
-    """Mark this entity as "killed" if its parent is killed as well.
+    """Mark this entity as "killed" if its parent is marked as killed as well.
 
     :param eid: The entity ID
     :param parent: The parent entity to watch
@@ -86,7 +90,7 @@ def sys_kill_with_parent(eid: EntityID, parent: EntityID):
 
 
 def sys_lifetime(eid: EntityID, lifetime: Cooldown) -> None:
-    """Update position based on a LerpPosition object.
+    """Mark the entity as killed if its lifetime has run out.
 
     :param eid: The entity ID
     :param lifetime: A `pgcooldown.Cooldown` instance
@@ -102,14 +106,15 @@ def sys_reap(eid: EntityID, is_killed: bool) -> None:
     """Remove entities that have a Comp.IS_KILLED component.
 
     :param eid: The entity ID
-    :param is_killed: Exactly that
+    :param is_killed: The marker component that indicates that this entity is killed
+        The existence of this component alone is sufficient, its value is ignored
 
     """
 
     ecs.remove_entity(eid)
 
 
-def sys_timer(eid: EntityID, timer: Cooldown) -> None:
+def sys_timer(eid: EntityID, timer: Timer) -> None:
     """Run a callback function after a timer runs out.
 
     :param eid: The entity ID
@@ -120,7 +125,9 @@ def sys_timer(eid: EntityID, timer: Cooldown) -> None:
 
     The prototype for the callback is::
 
-        def callback() -> None
+        def callback() -> None:
+            ...
+
     """
 
     if timer.cooldown.cold():

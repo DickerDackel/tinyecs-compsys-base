@@ -1,26 +1,35 @@
 # tinyecs-compsys-base
 
-Thise are some very basic and framework independent components.
+These are some very basic and framework independent components.
+
+`tinyecs.compsys.base` provides a set of components and systems that are
+independent from any graphics framework or backend. These components and
+systems are mostly about entity management. See the API docs for a list.
 
 ## Synopsis
 
+While this package can be installed directly, the more flexible approach
+is to have `tinyecs.compsys` find it and import it with all other
+`compsys` packages under a common namespace.
+
 ``` python
-from tinyecs.compsys.base import ...
+import tinyecs.compsys as cs
+
+cs.register()
 ```
-
-## Usage
-
-This package has no direct functionality, but all sub modules will
-register their component IDs in the `tinyecs.compsys.Comp` enum.
 
 ## Installation
 
-Installation instructions + requirements (should come automagically with
-pyproject.toml)
+It\'s up to you, if you install the currently provided `compsys` packages from
+`tinyecs` by using
 
 ``` console
 pip install tinyecs[base]
-# or
+```
+
+or include them by adding specific dependencies:
+
+``` console
 pip install tinyecs
 pip install tinyecs-compsys
 pip install tinyecs-compsys-base
@@ -28,20 +37,7 @@ pip install tinyecs-compsys-base
 
 ## Support / Contributing
 
-Issues can be opened on [github
-issues](https://forgejo.indieandmore.photography/dickerdackel/tinyecs-compsys/issues)
-
-## AI Contribution Policy
-
-Please respect, that I don't want any contributions done with the assistance
-of AI.  This is a hobby project with focus on the craft of programming.  I
-have experimentally used AI to audit parts of the code and documentation, and
-while it found a lot of typos and 2 actual issues, without exception, the
-provided solutions were often besides the point or plain wrong.  Programming
-as a hobby is about challenging the brain, not about getting fast results.
-
-I have no possibility to enforce that request, the simple fact that I ask for
-it should be sufficient.
+Issues can be opened on [github issues](https://github.com/dickerdackel/tinyecs-compsys-base/issues)
 
 ## License
 

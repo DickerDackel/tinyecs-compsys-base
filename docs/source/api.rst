@@ -9,12 +9,13 @@ Components
 
 See Systems below for what each component is.
 
-Registers the following CIDs to ``tinyecs-compsy.Comp``:
+Registers the following CIDs to ``tinyecs.compsys.Comp``:
 
 * CROND
 * FOLLOWUP
 * IS_KILLED
 * KILL_WITH_PARENT
+* LIFETIME
 * TIMER
 
 .. autoclass:: tinyecs.compsys.base.Timer
@@ -24,7 +25,6 @@ Registers the following CIDs to ``tinyecs-compsy.Comp``:
 Systems
 -------
 
-.. autofunction:: tinyecs.compsys.base.
 .. autofunction:: tinyecs.compsys.base.sys_crond
 .. autofunction:: tinyecs.compsys.base.sys_followup
 .. autofunction:: tinyecs.compsys.base.sys_kill_with_parent

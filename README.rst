@@ -1,31 +1,39 @@
 tinyecs-compsys-base
 ====================
 
-Thise are some very basic and framework independent components.
+These are some very basic and framework independent components.
+
+``tinyecs.compsys.base`` provides a set of components and systems that are
+independent from any graphics framework or backend.  These components and
+systems are mostly about entity management.  See the API docs for a list.
 
 Synopsis
 --------
 
+While this package can be imported directly, the more flexible approach is to
+have ``tinyecs.compsys`` find it and import it with all other ``compsys``
+packages under a common namespace.
+
 .. code:: python
 
-   from tinyecs.compsys.base import ...
+   import tinyecs.compsys as cs
 
-Usage
------
-
-This package has no direct functionality, but all sub modules will register
-their component IDs in the ``tinyecs.compsys.Comp`` enum.
+   cs.register()
 
 Installation
 ------------
 
-Installation instructions + requirements (should come automagically with
-pyproject.toml)
+It's up to you, if you install the currently provided `compsys` packages from
+`tinyecs` by using
 
 .. code:: console
 
    pip install tinyecs[base]
-   # or
+
+or include them by adding specific dependencies:
+
+.. code:: console
+
    pip install tinyecs
    pip install tinyecs-compsys
    pip install tinyecs-compsys-base
@@ -35,7 +43,7 @@ Support / Contributing
 
 Issues can be opened on `github issues`_
 
-.. _github issues: https://forgejo.indieandmore.photography/dickerdackel/tinyecs-compsys/issues
+.. _github issues: https://github.com/dickerdackel/tinyecs-compsys-base/issues
 
 
 License

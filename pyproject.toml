@@ -1,5 +1,5 @@
 [project]
-name = "tinyecs.compsys.base"
+name = "tinyecs-compsys-base"
 description = "Foundational component and system library for tinyecs"
 version = "0.0.1"
 readme = "README.rst"
@@ -21,21 +21,13 @@ license-files = ["LICENSE"]
 dependencies = [
     'aenum',
     'pgcooldown',
-    # 'tinyecs-compsys',
-]
-
-[dependency-groups]
-docs = [
-    "build",
-    "setuptools",
-    "sphinx",
-    "sphinx-autobuild",
-    "furo",
+    'tinyecs >= 0.5.0',
+    'tinyecs-compsys',
 ]
 
 [project.urls]
 homepage = "https://github.com/dickerdackel/tinyecs-compsys-base"
-bugtracker = "https://github.com/DickerDackel/tinyecs-compsys-base/issues"
+bugtracker = "https://github.com/dickerdackel/tinyecs-compsys-base/issues"
 
 [build-system]
 requires = ["setuptools"]

@@ -6,6 +6,7 @@ tinyecs-compsys - compsys root for tinyecs
 
    introduction
    api
+   ai-policy
    license
 
 Index

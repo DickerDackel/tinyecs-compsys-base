@@ -37,8 +37,6 @@ Issues can be opened on `github issues`_
 
 .. _github issues: https://forgejo.indieandmore.photography/dickerdackel/tinyecs-compsys/issues
 
-.. include:: AI-policy.rst
-
 
 License
 -------

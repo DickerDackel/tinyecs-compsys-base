@@ -1,4 +1,4 @@
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from dataclasses import dataclass, InitVar
 
 import tinyecs as ecs
@@ -7,6 +7,9 @@ from aenum import extend_enum
 from pgcooldown import CronD, Cooldown
 from tinyecs import EntityID
 from tinyecs.compsys import Comp
+
+
+type _Followup = Callable[[EntityID], None] | Collection[[Callable], None]
 
 
 extend_enum(Comp, 'CROND')
@@ -56,13 +59,13 @@ def sys_crond(eid: EntityID, crond: CronD) -> None:
     crond.update()
 
 
-def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[EntityID], None]) -> None:
+def sys_followup(eid: EntityID, is_killed: bool, followup: _Followup) -> None:
     """Run a followup function after an entity is marked as dead.
 
     :param eid: The entity ID
     :param is_killed: The marker component that indicates that this entity is killed
         The existence of this component alone is sufficient, its value is ignored
-    :param followup: A callback to run
+    :param followup: Either a single callback, or an iterable collection of callbacks
 
     The prototype for the callback is::
 
@@ -73,7 +76,12 @@ def sys_followup(eid: EntityID, is_killed: bool, followup: Callable[[EntityID], 
     """
 
     ecs.remove_component(eid, Comp.FOLLOWUP)
-    followup(eid)
+
+    if isinstance(followup, Collection):
+        for f in followup:
+            f(eid)
+    else:
+        followup(eid)
 
 
 def sys_kill_with_parent(eid: EntityID, parent: EntityID):

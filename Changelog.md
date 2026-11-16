@@ -1,3 +1,7 @@
+# v0.0.5
+
+- Allow multiple followups
+
 # v0.0.4
 
 - tinyecs.compsys now supports star imports from sub-packages
